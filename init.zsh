@@ -6,7 +6,7 @@ _prompt_mnml_precmd() {
 }
 
 _prompt_mnml_buffer-empty() {
-  if [[ -z ${BUFFER} && ${CONTEXT} == start ]]; then
+  if [[ -z ${BUFFER} && ${CONTEXT} == start && $KEYMAP = main ]]; then
     # draw infoline
     if (( MNML_LAST_ERR )) print -Pn '%F{${MNML_ERR_COLOR}}${MNML_LAST_ERR} '
     print -Pn '%(1j.%F{244}%j%f& .)%F{244}%n%f@%F{244}%m%f:'
@@ -21,8 +21,8 @@ _prompt_mnml_buffer-empty() {
     if (( ${#dirstack} )) print -P %F{244}${${dirstack/${HOME}/\~}//\//%f\/%F{244}}%f
     command ls -F
     command git status -sb 2>/dev/null
-    print -Pn ${PS1}
-    zle redisplay
+    print
+    zle reset-prompt
   else
     zle accept-line
   fi
